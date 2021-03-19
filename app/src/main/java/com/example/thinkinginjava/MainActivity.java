@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.thinkinginjava.generic.Generators;
 import com.example.thinkinginjava.generic.GenericVarargs;
 import com.example.thinkinginjava.generic.LinkedStack;
 import com.example.thinkinginjava.generic.coffee.Coffee;
 import com.example.thinkinginjava.generic.coffee.CoffeeGenerator;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
         linkedStackTest();
         coffeeGenerator();
         genericVarargs();
+        generators();
     }
 
     private void linkedStackTest() {
@@ -53,6 +57,14 @@ public class MainActivity extends AppCompatActivity {
         List<String> ls = GenericVarargs.makeList("A", "B", "C");
         spentLine();
         spent(ls.toString());
+    }
+
+    private void generators() {
+        Collection<Coffee> coffees = Generators.fill(new ArrayList<>(), new CoffeeGenerator(), 4);
+        spentLine();
+        for(Coffee c : coffees) {
+            spent(c.toString());
+        }
     }
 
     private void spentLine() {
