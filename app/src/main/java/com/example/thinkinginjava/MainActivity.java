@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.thinkinginjava.generic.CountedObject;
 import com.example.thinkinginjava.generic.Generators;
 import com.example.thinkinginjava.generic.GenericVarargs;
 import com.example.thinkinginjava.generic.LinkedStack;
+import com.example.thinkinginjava.generic.Store;
 import com.example.thinkinginjava.generic.coffee.Coffee;
 import com.example.thinkinginjava.generic.coffee.CoffeeGenerator;
+import com.example.thinkinginjava.util.BasicGenerator;
+import com.example.thinkinginjava.util.Generator;
+import com.example.thinkinginjava.util.Tuple;
+import com.example.thinkinginjava.util.TwoTuple;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         coffeeGenerator();
         genericVarargs();
         generators();
+        basicGenerator();
+        tuple();
+        store();    // 构建复杂模型
     }
 
     private void linkedStackTest() {
@@ -65,6 +74,29 @@ public class MainActivity extends AppCompatActivity {
         for(Coffee c : coffees) {
             spent(c.toString());
         }
+    }
+
+    private void basicGenerator() {
+        Generator<CountedObject> gen = BasicGenerator.create(CountedObject.class);
+        spentLine();
+        for(int i = 0; i < 5; i ++) {
+            spent(gen.next().toString());
+        }
+    }
+
+    private void tuple() {
+        spentLine();
+        TwoTuple<String, Integer> ttsi = f();
+        spent(ttsi.toString());
+    }
+
+    TwoTuple<String ,Integer> f() {
+        return Tuple.tuple("hi", 47);
+    }
+
+    private void store() {
+        spentLine();
+        spent(new Store(1, 2, 2).toString());
     }
 
     private void spentLine() {
