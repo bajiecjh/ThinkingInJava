@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.example.thinkinginjava.generic.CountedObject;
+import com.example.thinkinginjava.generic.CreatorGeneric;
+import com.example.thinkinginjava.generic.FactoryConstraint;
 import com.example.thinkinginjava.generic.Generators;
 import com.example.thinkinginjava.generic.GenericVarargs;
 import com.example.thinkinginjava.generic.LinkedStack;
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         basicGenerator();
         tuple();
         store();    // 构建复杂模型
+        FactoryConstraint.test();   // 显示工厂
+        CreatorGeneric.test();      // 模板方法
     }
 
     private void linkedStackTest() {
