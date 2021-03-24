@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.thinkinginjava.generic.BasicBounds;
 import com.example.thinkinginjava.generic.CountedObject;
 import com.example.thinkinginjava.generic.CreatorGeneric;
 import com.example.thinkinginjava.generic.FactoryConstraint;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         store();    // 构建复杂模型
         FactoryConstraint.test();   // 显示工厂
         CreatorGeneric.test();      // 模板方法
+        BasicBounds.test();         // 边界
     }
 
     private void linkedStackTest() {
