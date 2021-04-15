@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.Array.GenericArray;
+import com.example.LinkedList.SingleLinkedList;
 import com.example.thinkinginjava.generic.BasicBounds;
 import com.example.thinkinginjava.generic.CountedObject;
 import com.example.thinkinginjava.generic.CreatorGeneric;
@@ -19,6 +21,7 @@ import com.example.thinkinginjava.util.BasicGenerator;
 import com.example.thinkinginjava.util.Generator;
 import com.example.thinkinginjava.util.Tuple;
 import com.example.thinkinginjava.util.TwoTuple;
+import com.example.Array.Array;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         FactoryConstraint.test();   // 显示工厂
         CreatorGeneric.test();      // 模板方法
         BasicBounds.test();         // 边界
+        spent(Array.test());
+        GenericArray.test();
+        SingleLinkedList.test();
     }
 
     private void linkedStackTest() {
