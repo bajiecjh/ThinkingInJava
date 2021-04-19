@@ -145,59 +145,128 @@ public class SingleLinkedList {
     public boolean palindrome() {
         if(head == null) return false;
         if(head.next == null) return true; // 链表只有一个节点
-        Node top = head;
-        int topIndex = 0;
-        while (top.next != null) {
-            top = top.next;
-            topIndex ++;
+
+        // 更巧妙一些的解法
+        // 快慢双指针获取中间结点
+        Node slow = head;
+        Node quick = head;
+        while (quick.next != null && quick.next.next != null) {
+            slow = slow.next;
+            quick = quick.next.next;
         }
-        int size = topIndex + 1;
-        Node h = head;
-        int hIndex = 0;
 
+        Node rightNode = null;
+        Node leftNode = null;
+        // 链表结点数量为奇数，quick为最后一个节点，slow为中间结点
+        if(quick.next == null) {
+            rightNode = slow.next;
+            // 翻转链表
+            leftNode = inverseLinkList(slow).next;
 
-        boolean isEven = size % 2 == 0;
-        int center = size / 2;
-        while (isEven ? hIndex-topIndex!=1 : !(topIndex == center && center == hIndex)) {
-            if(h.data != top.data) {
+        } else {    // 链表结点数量为双数
+            rightNode = slow.next;
+            leftNode = inverseLinkList(slow);
+        }
+
+        while (leftNode != null && rightNode != null) {
+            // 不是回文
+            if(leftNode.data != rightNode.data) {
                 return false;
             }
-            hIndex ++;
-            h = h.next;
-            topIndex --;
-            top = findByIndex(topIndex);
+            leftNode = leftNode.next;
+            rightNode = rightNode.next;
         }
 
         return true;
+
+        // 我的解法
+
+
+//        Node top = head;
+//        int topIndex = 0;
+//        while (top.next != null) {
+//            top = top.next;
+//            topIndex ++;
+//        }
+//        int size = topIndex + 1;
+//        Node h = head;
+//        int hIndex = 0;
+//
+//
+//        boolean isEven = size % 2 == 0;
+//        int center = size / 2;
+//        while (isEven ? hIndex-topIndex!=1 : !(topIndex == center && center == hIndex)) {
+//            if(h.data != top.data) {
+//                return false;
+//            }
+//            hIndex ++;
+//            h = h.next;
+//            topIndex --;
+//            top = findByIndex(topIndex);
+//        }
+//
+//        return true;
     }
 
     public Node inverseLinkList(Node p){
-        if(head == null) return null;       // 链表为空
-        if(head.next == null) return new Node(head.data, null); // 链表只有一个链头
-        // 找出p的前一个结点
-        Node originCurrent = p;
-        Node originNode = head;
-        Node newListHead = new Node(p.data, null);
-        Node newListNode = null;
-
-        while (!originCurrent.equals(head)) {
-//            while (originCurrent.next.equals())
+        // 更优解法
+        Node pre = null;
+        Node newHead = head;
+        Node next = null;
+        while (newHead != p) {
+            next = newHead.next;
+            // 遍历到原本链表的尾部还没发现p结点
+            if(next == null) {
+                return null;
+            }
+            newHead.next = pre;
+            pre = newHead;
+            newHead = next;
         }
+        newHead.next = pre;
+        return newHead;
 
-//        while (!beforeOfP.next.equals(p)) {
-//            beforeOfP = beforeOfP.next;
+
+        // 我的解法
+//        if(head == null) return null;       // 链表为空
+//        if(head.next == null) return new Node(head.data, null); // 链表只有一个链头
+//
+//        // 新链表头结点
+//        Node newListHeader = new Node(p.data, null);
+//        Node newListNode = null;
+//        // 当前链表指向
+//        Node currentNode = p;
+//
+//
+//        while (!currentNode.equals(head)) {
+//            Node q = head;
+//            while (!q.next.equals(currentNode)) {
+//                q = q.next;
+//            }
+//            Node n = new Node(q.data, null);
+//            newListNode = newListHeader;
+//            while (newListNode.next != null) {
+//                newListNode = newListNode.next;
+//            }
+//            newListNode.next = n;
+//
+//            Node t = head;
+//            while (!t.next.equals(currentNode)) {
+//                t = t.next;
+//            }
+//            currentNode = t;
 //        }
-//        if(beforeOfP == null) return null;  // 当前链表没有p节点
-//        head.next = beforeOfP;
+//        return newListHeader;
     }
 
     public static void test() {
         SingleLinkedList list = new SingleLinkedList();
         list.insert(0);
         list.insert(1);
-        list.insert(2);
-        list.insert(3);
-        list.insert(4);
+        list.insert(1);
+        list.insert(0);
+//        list.insert(3);
+//        list.insert(4);
 //        list.insert(1);
 //        list.insert(0);
 //        list.insertAtHead(-1);
@@ -266,7 +335,7 @@ public class SingleLinkedList {
         boolean result = list.palindrome();
         System.out.println("LinkedList::palindrome::" + result);
 
-        Node node = list.inverseLinkList(list.findByIndex(2));
+        Node node = list.inverseLinkList(list.findByIndex(4));
         list.printList();
     }
 
