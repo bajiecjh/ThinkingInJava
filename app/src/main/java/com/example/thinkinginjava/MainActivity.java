@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.example.Array.GenericArray;
 import com.example.LinkedList.SingleLinkedList;
+import com.example.queue.ArrayQueue;
+import com.example.queue.CircularQueue;
 import com.example.stack.ArrayStack;
 import com.example.thinkinginjava.generic.BasicBounds;
 import com.example.thinkinginjava.generic.CountedObject;
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         GenericArray.test();
         SingleLinkedList.test();
         ArrayStack.test();
+        ArrayQueue.test();
+        CircularQueue.test();
     }
 
     private void linkedStackTest() {
