@@ -9,6 +9,7 @@ import com.example.Array.GenericArray;
 import com.example.LinkedList.SingleLinkedList;
 import com.example.queue.ArrayQueue;
 import com.example.queue.CircularQueue;
+import com.example.sort.Sorts;
 import com.example.stack.ArrayStack;
 import com.example.thinkinginjava.generic.BasicBounds;
 import com.example.thinkinginjava.generic.CountedObject;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayStack.test();
         ArrayQueue.test();
         CircularQueue.test();
+        Sorts.test();
     }
 
     private void linkedStackTest() {
