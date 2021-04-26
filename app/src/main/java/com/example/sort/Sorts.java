@@ -110,6 +110,52 @@ public class Sorts {
         System.out.println("");
     }
 
+    /**
+     * 归并排序
+     *
+     * @param arr
+     */
+    public static void mergeSort(int[] arr, int left, int right) {
+        if (left >= right) {
+            return;
+        }
+        int q = (left + right) / 2;
+        mergeSort(arr, left, q);
+        mergeSort(arr, q + 1, right);
+        merge2(arr, left, q, right);
+
+    }
+
+    private static void merge2(int[] arr, int left, int q, int right) {
+        System.out.println(TAG + "mergeSort::left=" + left + "::right=" + right + "::q=" + q);
+        int[] leftArr = new int[q - left + 2];
+        int[] rightArr = new int[right - q + 1];
+
+        for (int i = 0; i <= q - left; i++) {
+            leftArr[i] = arr[left + i];
+        }
+        // 第一个数组添加哨兵（最大值）
+        leftArr[q - left + 1] = Integer.MAX_VALUE;
+
+        for (int i = 0; i < right - q; i++) {
+            rightArr[i] = arr[q + 1 + i];
+        }
+        // 第二个数组添加哨兵（最大值）
+        rightArr[right - q] = Integer.MAX_VALUE;
+
+        int i = 0;
+        int j = 0;
+        int k = left;
+        while (k <= right) {
+            // 当左边数组到达哨兵值时，i不再增加，直到右边数组读取完剩余值，同理右边数组也一样
+            if (leftArr[i] <= rightArr[j]) {
+                arr[k++] = leftArr[i++];
+            } else {
+                arr[k++] = rightArr[j++];
+            }
+        }
+    }
+
 
 
     public static void test() {
@@ -117,5 +163,6 @@ public class Sorts {
         sorts.bubbleSort(new int[]{3, 4, 2, 1, 5, 6});
         sorts.insertionSort(new int[]{3, 4, 2, 6, 5, 1});
         sorts.selectionSort(new int[]{3, 4, 2, 6, 5, 1});
+        sorts.mergeSort(new int[]{3, 4, 2, 6, 5, 1}, 0, 5);
     }
 }
