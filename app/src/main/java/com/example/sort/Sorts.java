@@ -113,49 +113,144 @@ public class Sorts {
     /**
      * 归并排序
      *
-     * @param arr
+     * @param data
      */
-    public static void mergeSort(int[] arr, int left, int right) {
-        if (left >= right) {
-            return;
-        }
+    public static void mergeSort(int[] data, int left, int right) {
+        if(left >= right) return;
         int q = (left + right) / 2;
-        mergeSort(arr, left, q);
-        mergeSort(arr, q + 1, right);
-        merge2(arr, left, q, right);
+        mergeSort(data, left, q);
+        mergeSort(data, q+1, right);
+        merge(data, left, q, right);
+    }
+
+    /**
+     * 加入哨兵解法
+     * @param data
+     * @param left
+     * @param q
+     * @param right
+     */
+    private static void merge2(int[] data, int left, int q, int right) {
 
     }
 
-    private static void merge2(int[] arr, int left, int q, int right) {
-        System.out.println(TAG + "mergeSort::left=" + left + "::right=" + right + "::q=" + q);
-        int[] leftArr = new int[q - left + 2];
-        int[] rightArr = new int[right - q + 1];
-
-        for (int i = 0; i <= q - left; i++) {
-            leftArr[i] = arr[left + i];
-        }
-        // 第一个数组添加哨兵（最大值）
-        leftArr[q - left + 1] = Integer.MAX_VALUE;
-
-        for (int i = 0; i < right - q; i++) {
-            rightArr[i] = arr[q + 1 + i];
-        }
-        // 第二个数组添加哨兵（最大值）
-        rightArr[right - q] = Integer.MAX_VALUE;
-
-        int i = 0;
-        int j = 0;
-        int k = left;
-        while (k <= right) {
-            // 当左边数组到达哨兵值时，i不再增加，直到右边数组读取完剩余值，同理右边数组也一样
-            if (leftArr[i] <= rightArr[j]) {
-                arr[k++] = leftArr[i++];
+    /**
+     * arr[left~q]和arr[q+1~right]分别为排序好的两组数据
+     * @param data
+     * @param left
+     * @param q
+     * @param right
+     */
+    private static void merge(int[] data, int left, int q, int right) {
+        System.out.println(TAG + "mergeSort::left=" + left + "::right=" + right + "::q=" + q );
+        // 临时数组，长度right-left+1
+        int length = right-left+1;
+        int[] tempArr = new int[length];
+        int count = 0;
+        int l = left;
+        int r = q + 1;
+        // 遍历两组数组，较小的一位挪入临时数组尾部，直到其中一个数组被遍历完成
+        while (l <= q && r <= right) {
+            if(data[l] <= data[r]) {
+                tempArr[count] = data[l];
+                l ++;
             } else {
-                arr[k++] = rightArr[j++];
+                tempArr[count] = data[r];
+                r ++;
+            }
+            count ++;
+        }
+        // 经过以上循环，肯定有一组数组已经遍历完成
+        // 判断是否有没遍历完成的数组
+        if(l <= q) {    // 左边的数组遍历没完成
+            for(int i = l; i <= q; i ++) {
+                tempArr[count] = data[i];
+                count ++;
             }
         }
+        if(r <= right) {    // 右边的数组遍历没完成
+            for(int i = r; i <= right; i ++) {
+                tempArr[count] = data[i];
+                count ++;
+            }
+        }
+        // 两边数组都遍历完成之后，把临时数组挪到data中
+        for(int i = 0; i < length; i ++) {
+            data[left + i] = tempArr[i];
+        }
+
+        System.out.print(TAG + "mergeSort::");
+        for (int i = 0; i < data.length; i ++) {
+            System.out.print(data[i] + " ");
+        }
+        System.out.println("");
     }
 
+
+    /**
+     * 快速排序
+     * @param data
+     * @param left
+     * @param right
+     */
+    public static void quickSort(int[] data, int left, int right) {
+        if(left >= right) return;
+        int pivot = partition(data, left, right);
+        quickSort(data, left, pivot - 1);
+        quickSort(data, pivot + 1, right);
+
+
+     }
+
+    /**
+     *
+     * @param data
+     * @param left
+     * @param right
+     * @return
+     */
+    private static int partition(int[] data, int left, int right) {
+        System.out.println(TAG + "quickSort::left=" + left + "::right=" + right);
+        int pivot = data[right];
+        int i = left;
+        int j = left;
+        // [left~i-1]为未处理区间，如果j位置小于pivot，j和i对换数据
+        while (j < right) {
+            if(data[j] <= pivot) {
+                int tmp = data[i];
+                data[i] = data[j];
+                data[j] = tmp;
+                i ++;
+            }
+            j ++;
+        }
+        data[right] = data[i];
+        data[i] = pivot;
+
+        System.out.print(TAG + "quickSort::");
+        for (int k = 0; k < data.length; k ++) {
+            System.out.print(data[k] + " ");
+        }
+        System.out.println("");
+
+        return i;
+    }
+
+
+    public static int kthSmallest(int[] data, int k) {
+        int length = data.length;
+        if(k<1||length<1) return -1;
+        int pivot = partition(data, 0, length - 1);
+        while (pivot + 1 != k) {
+            if(pivot + 1 > k) {
+                pivot = partition(data, 0, pivot - 1);
+            } else {
+                pivot = partition(data, pivot + 1, length - 1);
+            }
+        }
+        System.out.println(TAG + "kthSmallest::" + data[pivot]);
+        return data[pivot];
+    }
 
 
     public static void test() {
@@ -164,5 +259,7 @@ public class Sorts {
         sorts.insertionSort(new int[]{3, 4, 2, 6, 5, 1});
         sorts.selectionSort(new int[]{3, 4, 2, 6, 5, 1});
         sorts.mergeSort(new int[]{3, 4, 2, 6, 5, 1}, 0, 5);
+        sorts.quickSort(new int[]{3, 4, 2, 6, 5, 1}, 0, 5);
+        sorts.kthSmallest(new int[]{3, 4, 2, 6, 5, 1}, 2);
     }
 }
