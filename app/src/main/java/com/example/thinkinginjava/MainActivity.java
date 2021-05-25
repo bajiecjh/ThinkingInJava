@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.example.Array.GenericArray;
 import com.example.LinkedList.SingleLinkedList;
+import com.example.binary.BinarySearch;
 import com.example.queue.ArrayQueue;
 import com.example.queue.CircularQueue;
 import com.example.sort.Sorts;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         ArrayQueue.test();
         CircularQueue.test();
         Sorts.test();
+        BinarySearch.test();
     }
 
     private void linkedStackTest() {
